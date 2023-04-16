@@ -49,6 +49,8 @@ import org.apache.zeppelin.util.Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import edu.illinois.confuzz.internal.ConfigTracker;
+
 /**
  * Zeppelin configuration.
  *
@@ -79,7 +81,7 @@ public class ZeppelinConfiguration {
 
   // private constructor, so that it is singleton.
   private ZeppelinConfiguration(@Nullable String filename) {
-     try {
+    try {
       loadXMLConfig(filename);
     } catch (ConfigurationException e) {
       LOGGER.warn("Failed to load XML configuration, proceeding with a default,for a stacktrace activate the debug log");
@@ -151,26 +153,31 @@ public class ZeppelinConfiguration {
   public void setProperty(String name, String value) {
     if (StringUtils.isNoneBlank(name, value)) {
       this.properties.put(name, value);
+      ConfigTracker.trackSet(LOGGER, name, value);
     }
   }
 
   private String getStringValue(String name, String d) {
     String value = this.properties.get(name);
-    if (value != null) {
-      return value;
+    if (value == null) {
+      value = d;
     }
-    return d;
+    ConfigTracker.trackGet(LOGGER, name, d);
+    return value;
   }
 
   private int getIntValue(String name, int d) {
     String value = this.properties.get(name);
     if (value != null) {
       try {
-        return Integer.parseInt(value);
+        int ret = Integer.parseInt(value);
+        ConfigTracker.trackGet(LOGGER, name, value);
+        return ret;
       } catch (NumberFormatException e) {
         LOGGER.warn("Can not parse the property {} with the value \"{}\" to an int value", name, value, e);
       }
     }
+    ConfigTracker.trackGet(LOGGER, name, String.valueOf(d));
     return d;
   }
 
@@ -178,11 +185,14 @@ public class ZeppelinConfiguration {
     String value = this.properties.get(name);
     if (value != null) {
       try {
-        return Long.parseLong(value);
+        long ret = Long.parseLong(value);
+        ConfigTracker.trackGet(LOGGER, name, value);
+        return ret;
       } catch (NumberFormatException e) {
         LOGGER.warn("Can not parse the property {} with the value \"{}\" to a long value", name, value, e);
       }
     }
+    ConfigTracker.trackGet(LOGGER, name, String.valueOf(d));
     return d;
   }
 
@@ -190,19 +200,24 @@ public class ZeppelinConfiguration {
     String value = this.properties.get(name);
     if (value != null) {
       try {
-        return Float.parseFloat(value);
+        float ret = Float.parseFloat(value);
+        ConfigTracker.trackGet(LOGGER, name, value);
+        return ret;
       } catch (NumberFormatException e) {
         LOGGER.warn("Can not parse the property {} with the value \"{}\" to a float value", name, value, e);
       }
     }
+    ConfigTracker.trackGet(LOGGER, name, String.valueOf(d));
     return d;
   }
 
   private boolean getBooleanValue(String name, boolean d) {
     String value = this.properties.get(name);
     if (value != null) {
+      ConfigTracker.trackGet(LOGGER, name, value);
       return Boolean.parseBoolean(value);
     }
+    ConfigTracker.trackGet(LOGGER, name, String.valueOf(d));
     return d;
   }
 
@@ -211,6 +226,7 @@ public class ZeppelinConfiguration {
   }
 
   public String getString(String envName, String propertyName, String defaultValue) {
+    // TODO: do we need to track env and sys configs?
     if (envConfig.containsKey(envName)) {
       return envConfig.getString(envName);
     }
@@ -298,6 +314,7 @@ public class ZeppelinConfiguration {
 
   @VisibleForTesting
   public void setServerPort(int port) {
+    ConfigTracker.trackSet(LOGGER, ConfVars.ZEPPELIN_PORT.getVarName(), String.valueOf(port));
     properties.put(ConfVars.ZEPPELIN_PORT.getVarName(), String.valueOf(port));
   }
 
@@ -790,6 +807,7 @@ public class ZeppelinConfiguration {
   }
 
   public void setClusterAddress(String clusterAddr) {
+    ConfigTracker.trackSet(LOGGER, ConfVars.ZEPPELIN_CLUSTER_ADDR.getVarName(), String.valueOf(clusterAddr));
     properties.put(ConfVars.ZEPPELIN_CLUSTER_ADDR.getVarName(), clusterAddr);
   }
 
@@ -820,6 +838,7 @@ public class ZeppelinConfiguration {
 
   @VisibleForTesting
   public void setRunMode(RUN_MODE runMode) {
+    ConfigTracker.trackSet(LOGGER, ConfVars.ZEPPELIN_RUN_MODE.getVarName(), runMode.name());
     properties.put(ConfVars.ZEPPELIN_RUN_MODE.getVarName(), runMode.name());
   }
 
