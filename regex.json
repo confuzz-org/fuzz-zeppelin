@@ -14,5 +14,10 @@
   {
     "name": "fake-param",
     "regex": "always|asneeded"
+  },
+  {
+    "name": "fake-config1",
+    "upper": 21,
+    "lower": 0
   }
 ]

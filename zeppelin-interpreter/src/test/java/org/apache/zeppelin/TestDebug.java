@@ -9,7 +9,6 @@ public class TestDebug {
     @Test
     public void test() throws Exception {
         ZeppelinConfiguration config = ZeppelinConfiguration.create();
-        int count = 0;
         String name = config.getString(null, "myname", null);
 
         int age = config.getInt(null, "age", 0);
@@ -29,6 +28,7 @@ public class TestDebug {
             } else if (str.equals("asneeded")) {
                 System.out.println("asneeded");
                 int fakeconfig = config.getInt(null, "fake-config1", 15);
+                System.out.println(fakeconfig);
                 if (fakeconfig == 20) {
                     throw new Exception("Fake Bug asneeded");
                 }
