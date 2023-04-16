@@ -87,6 +87,12 @@ public class ZeppelinConfiguration {
       LOGGER.warn("Failed to load XML configuration, proceeding with a default,for a stacktrace activate the debug log");
       LOGGER.debug("Failed to load XML configuration", e);
     }
+    // TODO: if the file is specified as the user configuration file?
+    if ((filename == null || filename == ZEPPELIN_SITE_XML) && ConfigurationGenerator.getGeneratedConf() != null) {
+      for (Map.Entry<String, String> entry: ConfigurationGenerator.getGeneratedConf().entrySet()) {
+        this.properties.put(entry.getKey(), entry.getValue());
+      }
+    }
   }
 
   private void loadXMLConfig(@Nullable String filename) throws ConfigurationException {
@@ -111,7 +117,12 @@ public class ZeppelinConfiguration {
         String name = String.valueOf(p.getChildren("name").get(0).getValue());
         String value = String.valueOf(p.getChildren("value").get(0).getValue());
         if (StringUtils.isNotBlank(name) && StringUtils.isNotBlank(value)) {
-          setProperty(name, value);
+          if (filename == ZEPPELIN_SITE_XML) {
+            generatorSet(name, value);
+          } else {
+            // TODO: custom file
+            setProperty(name, value);
+          }
         }
       }
     }
@@ -154,6 +165,12 @@ public class ZeppelinConfiguration {
     if (StringUtils.isNoneBlank(name, value)) {
       this.properties.put(name, value);
       ConfigTracker.trackSet(LOGGER, name, value);
+    }
+  }
+
+  public void generatorSet(String name, String value) {
+    if (StringUtils.isNoneBlank(name, value)) {
+      this.properties.put(name, value);
     }
   }
 
