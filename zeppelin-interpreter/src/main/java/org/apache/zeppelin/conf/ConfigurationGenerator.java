@@ -3,6 +3,7 @@ package org.apache.zeppelin.conf;
 import com.pholser.junit.quickcheck.generator.GenerationStatus;
 import com.pholser.junit.quickcheck.generator.Generator;
 import com.pholser.junit.quickcheck.random.SourceOfRandomness;
+import edu.illinois.confuzz.internal.ConfigTracker;
 import edu.illinois.confuzz.internal.ConfuzzGenerator;
 
 import java.io.*;
@@ -39,6 +40,7 @@ public class ConfigurationGenerator extends Generator<Integer> {
         generatedConf = new LinkedHashMap<>();
         try {
             for (Map.Entry<String, Object> entry: ConfuzzGenerator.generate(random).entrySet()) {
+                ConfigTracker.trackGenerated(entry.getKey(), entry.getValue());
                 generatedConf.put(entry.getKey(), String.valueOf(entry.getValue()));
             }
             ZeppelinConfiguration.reset();
