@@ -1,0 +1,15 @@
+Configuration Parameter
+zeppelin.server.context.path=/
+zeppelin.interpreter.lifecyclemanager.class=org.apache.zeppelin.interpreter.lifecycle.NullLifecycleManager
+zeppelin.cluster.heartbeat.timeout=9000
+zeppelin.cluster.addr=
+zeppelin.scheduler.threadpool.size=100
+zeppelin.interpreter.dep.mvnRepo=https://repo1.maven.org/maven2/
+zeppelin.server.port=8080
+zeppelin.ssl=false
+myname=null
+zeppelin.cluster.heartbeat.interval=3000
+fake-param=null
+zeppelin.proxy.url=null
+zeppelin.server.addr=127.0.0.1
+age=0
