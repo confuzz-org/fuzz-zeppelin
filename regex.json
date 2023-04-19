@@ -1,23 +1,22 @@
 [
-  {
-    "name": "myage",
-    "regex": "^[0-9]{1,3}"
-  },
-  {
-    "name": "myname",
-    "regex": "ShuaiWang"
-  },
-  {
-    "name": "myemail",
-    "regex": "^[a-zA-Z0-9._%+-]{3}@[a-zA-Z0-9.-]{3}\\.[a-zA-Z]{2,4}$"
-  },
-  {
-    "name": "fake-param",
-    "regex": "always|asneeded"
-  },
-  {
-    "name": "fake-config1",
-    "upper": 21,
-    "lower": 0
-  }
+    {
+        "name": "zeppelin.notebook.storage",
+        "regex": "org\\.apache\\.zeppelin\\.notebook\\.repo\\.GitNotebookRepo(,org\\.apache\\.zeppelin\\.notebook\\.repo\\.InMemoryNotebookRepo)?(,org\\.apache\\.zeppelin\\.notebook\\.repo\\.VFSNotebookRepo)?|org\\.apache\\.zeppelin\\.notebook\\.repo\\.InMemoryNotebookRepo(,org\\.apache\\.zeppelin\\.notebook\\.repo\\.VFSNotebookRepo)?|org\\.apache\\.zeppelin\\.notebook\\.repo\\.VFSNotebookRepo"
+    },
+    {
+        "name": "zeppelin.config.storage.class",
+        "regex": "org\\.apache\\.zeppelin\\.storage\\.(Local|FileSystem)ConfigStorage"
+    },
+    {
+        "name": "zeppelin.server.xframe.options",
+        "regex": "SAMEORIGIN|DENY"
+    },
+    {
+        "name": "zeppelin.recovery.storage.class",
+        "regex": "org\\.apache\\.zeppelin\\.interpreter\\.recovery\\.(Null|Local|FileSystem)RecoveryStorage"
+    },
+    {
+        "name": "zeppelin.run.mode",
+        "regex": "auto|local|k8s"
+    }
 ]
