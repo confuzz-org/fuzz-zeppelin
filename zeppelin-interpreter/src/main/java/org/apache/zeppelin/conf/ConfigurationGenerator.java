@@ -40,7 +40,6 @@ public class ConfigurationGenerator extends Generator<Integer> {
         generatedConf = new LinkedHashMap<>();
         try {
             for (Map.Entry<String, Object> entry: ConfuzzGenerator.generate(random).entrySet()) {
-                ConfigTracker.trackGenerated(entry.getKey(), entry.getValue());
                 generatedConf.put(entry.getKey(), String.valueOf(entry.getValue()));
             }
             ZeppelinConfiguration.reset();
