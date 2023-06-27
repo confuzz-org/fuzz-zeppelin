@@ -1,5 +1,9 @@
 [
     {
+	"name": "fake-param",
+	"regex": "always|asneeded"
+    },
+    {
         "name": "zeppelin.notebook.storage",
         "regex": "org\\.apache\\.zeppelin\\.notebook\\.repo\\.GitNotebookRepo(,org\\.apache\\.zeppelin\\.notebook\\.repo\\.InMemoryNotebookRepo)?(,org\\.apache\\.zeppelin\\.notebook\\.repo\\.VFSNotebookRepo)?|org\\.apache\\.zeppelin\\.notebook\\.repo\\.InMemoryNotebookRepo(,org\\.apache\\.zeppelin\\.notebook\\.repo\\.VFSNotebookRepo)?|org\\.apache\\.zeppelin\\.notebook\\.repo\\.VFSNotebookRepo"
     },
